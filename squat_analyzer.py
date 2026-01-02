@@ -2,6 +2,8 @@
 import numpy as np
 import mediapipe as mp
 
+mp_pose = mp.solutions.pose
+
 class SquatCounter:
     def __init__(self, down_angle_min=75, down_angle_max=80, up_angle=170):
         self.down_angle_min = down_angle_min
@@ -54,10 +56,9 @@ def calculate_angle(a, b, c):
 class SquatAnalyzer:
     def __init__(self):
         self.counter = SquatCounter()
-        self.mp_pose = mp.solutions.pose  # IMPORTANT: create this in __init__
 
     def detect_squat(self, landmarks):
-        LP = self.mp_pose.PoseLandmark
+        LP = mp_pose.PoseLandmark
 
         # Use LEFT side leg joints for angle (hip–knee–ankle)
         hip   = [landmarks[LP.LEFT_HIP.value].x,   landmarks[LP.LEFT_HIP.value].y]

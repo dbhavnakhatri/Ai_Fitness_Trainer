@@ -2,13 +2,14 @@
 import math
 import mediapipe as mp
 
+mp_pose = mp.solutions.pose
+
 class ArmRaiseCounter:
     def __init__(self):
         self.right_counter = 0
         self.right_stage = None
         self.left_counter = 0
         self.left_stage = None
-        self.mp_pose = mp.solutions.pose  # for readable landmark names
 
     def calculate_angle(self, a, b, c):
         """Returns the angle between three points (in degrees)."""
@@ -19,7 +20,7 @@ class ArmRaiseCounter:
         return abs(angle) if angle >= 0 else 360 - abs(angle)
 
     def detect_arm_raise(self, landmarks):
-        LP = self.mp_pose.PoseLandmark
+        LP = mp_pose.PoseLandmark
 
         # Extract coordinates (right = even indices: 12/14/16/24, left = odd: 11/13/15/23)
         right_shoulder = [landmarks[LP.RIGHT_SHOULDER.value].x, landmarks[LP.RIGHT_SHOULDER.value].y]
